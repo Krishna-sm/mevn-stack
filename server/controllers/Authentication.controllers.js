@@ -10,12 +10,12 @@ class AuthenticationController{
      static loginController = catchAsync(async(req,res)=>{
       const res_obj = await AuthenticationService.loginService(req?.body);
       // res.send(res_obj)
-      res.status(httpStatus.CREATED).send(res_obj);
+      res.status(httpStatus.OK).send(res_obj);
      })
      static profileController = catchAsync(async(req,res)=>{
-      const res_obj = await AuthenticationService.UserProfile("650a4d53f23561fb1b8754ce");
+      const res_obj = await AuthenticationService.UserProfile(req?.user);
       // res.send(res_obj)
-      res.status(httpStatus.CREATED).send(res_obj);
+      res.status(httpStatus.OK).send(res_obj);
      })
 }
 

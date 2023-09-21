@@ -12,7 +12,7 @@ const register = async(body)=>{
     }
 
   const user = await  UserModel.create({name,email,password});
-  return user;
+  return {msg:"User Register Successfully"};
 
 }
 
@@ -34,7 +34,7 @@ if(!isMatch){
 
   // return existUser;
   const token = await GenerateToken(existUser);
-  return token;
+  return {msg:"login success",token};
 
 
 

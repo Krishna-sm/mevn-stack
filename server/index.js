@@ -1,3 +1,6 @@
+require("dotenv").config({
+    path:"./config/config.env"
+})
 const express = require("express");
 const { Authentication } = require("./routes");
 const { ConnectDB } = require("./config/db");
@@ -11,8 +14,8 @@ const app = express();
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())
-
-const port = 3000;
+console.log({poer:process.env.PORT});
+const port = process.env.PORT || 3000;
 ConnectDB();
 
 app.get("/",(req,res)=>{
@@ -34,6 +37,6 @@ app.use((req, res, next) => {
 
 
 app.listen(port,()=>{
-    console.log("this is working on localhost:3000")
+    console.log(`this is working on localhost:${port}`)
 })
 
