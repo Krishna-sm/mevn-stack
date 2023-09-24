@@ -3,7 +3,8 @@ const mongoose = require("mongoose");
 const schema = new mongoose.Schema({
     title:{
         type:String,
-        required:[true,"Please enter a Title"]
+        required:[true,"Please enter a Title"],
+        unique : true ,
     },
     slug:{
         type : String ,  //slug is the url of our post
@@ -21,6 +22,9 @@ const schema = new mongoose.Schema({
     content:{
         type:String,
         required:true
+    },
+    isDeleted:{
+        type:Boolean,default:false
     }
 },{
     timestamps:true

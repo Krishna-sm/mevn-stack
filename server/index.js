@@ -9,8 +9,9 @@ const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require("./utils/ApiError");
 const httpStatus = require("http-status");
 const app = express();
-
+const path = require("path")
 // middlewares
+app.use("/static/",express.static(path.join(__dirname,"./uploads/")))
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended:false}))
 app.use(express.json())

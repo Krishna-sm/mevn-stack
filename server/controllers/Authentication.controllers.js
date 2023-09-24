@@ -17,6 +17,23 @@ class AuthenticationController{
       // res.send(res_obj)
       res.status(httpStatus.OK).send(res_obj);
      })
+     static postController = catchAsync(async(req,res)=>{
+      const res_obj = await AuthenticationService.createPost(req?.user,req?.body,req?.file);
+      // res.send(res_obj)
+      res.status(httpStatus.CREATED).send(res_obj);
+     })
+     static AllpostController = catchAsync(async(req,res)=>{
+      const res_obj = await AuthenticationService.AllPost();
+      // res.send(res_obj)
+      res.status(httpStatus.OK).send(res_obj);
+     })
+     static PostById = catchAsync(async(req,res)=>{
+      const res_obj = await AuthenticationService.PostById(req?.params?.id);
+      // res.send(res_obj)
+      res.status(httpStatus.OK).send(res_obj);
+     })
+
+     
 }
 
 module.exports = AuthenticationController
