@@ -8,9 +8,11 @@ const morgan = require("morgan");
 const { errorConverter, errorHandler } = require('./middlewares/error');
 const ApiError = require("./utils/ApiError");
 const httpStatus = require("http-status");
+const cors = require("cors")
 const app = express();
 const path = require("path")
 // middlewares
+app.use(cors())
 app.use("/static/",express.static(path.join(__dirname,"./uploads/")))
 app.use(morgan('dev'))
 app.use(express.urlencoded({extended:false}))

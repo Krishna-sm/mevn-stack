@@ -16,8 +16,8 @@ import { RouterLink } from 'vue-router'
               <li>
                 <router-link :to="{name:'Contact'}">Contact</router-link>
               </li>
-              <li class="bg-indigo-500 hover:bg-indigo-600 cursor-pointer px-5 py-2 md:px-12 md:py-3 rounded-md text-white">
-                <router-link to="/login">Login</router-link>
+              <li >
+                <router-link to="/login" class="bg-indigo-500 inline-block hover:bg-indigo-600 cursor-pointer px-5 py-2 md:px-12 md:py-3 rounded-md text-white">Login</router-link>
               </li>
             </ul>
           </nav>
