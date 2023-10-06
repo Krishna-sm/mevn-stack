@@ -23,6 +23,10 @@ const schema = new mongoose.Schema({
         type:String,
         required:true
     },
+     description:{
+        type:String,
+        required:true
+    },
     isDeleted:{
         type:Boolean,default:false
     }

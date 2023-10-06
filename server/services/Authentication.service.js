@@ -45,7 +45,7 @@ const UserProfile = async(id)=>{
 }
 
 const createPost= async(user,body,file)=>{
-    const {title,content} = body;
+    const {title,content,description} = body;
 
 const existance = await BlogPostModel.findOne({title});
 if(existance){
@@ -59,21 +59,24 @@ if(existance){
       slug:newTitle,
       content,
       image:file?.filename,
-      user:user
+      user:user,
+      description
     })
 
-    return model;
+    return {
+      msg:"post added successfully"
+    };
 
 
 }
 
 const AllPost  = async()=>{
-  const posts =  await BlogPostModel.find({isDeleted:false}).populate("user","name email")
+  const posts =  await BlogPostModel.find({isDeleted:false}).populate("user","name email").select("-content")
   return {posts,total:posts.length}
 }
 
 const PostById = async(id)=>{
-  const post =  await BlogPostModel.findByOne({_id:id, isDeleted:false}).populate("user","name email")
+  const post =  await BlogPostModel.findOne({_id:id, isDeleted:false}).populate("user","name email")
   return {post}
 }
 
