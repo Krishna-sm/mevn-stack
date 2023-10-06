@@ -25,7 +25,7 @@
             </p>
           </div>
           <div class="mb-3 w-full flex justify-center">
-            <button class="bg-indigo-500 hover:bg-indigo-600 cursor-pointer px-12 py-3 rounded-md text-white text-2xl f-1">Login</button>
+            <button class="bg-indigo-500 hover:bg-indigo-600 cursor-pointer px-12 py-3 rounded-md text-white text-2xl f-1">Register</button>
           </div>
           <div class="mb-3">
             <p class="text-center text-lg">Already Have An Account <span class="text-indigo-500"><router-link to="/login">Sign In ?</router-link></span></p>
@@ -37,6 +37,10 @@
 import { RouterLink } from 'vue-router';
 import {Form,Field,ErrorMessage} from 'vee-validate';
 import * as yup from 'yup';
+import {toast} from 'vue3-toastify'
+import axios from 'axios'
+import {useRouter} from 'vue-router'
+const router = useRouter()
 
 const validationSchema = yup.object({
   name:yup.string().required("Name is required"),
@@ -50,8 +54,16 @@ const initialValues ={
   password:""
 }
 
-const onSubmitHandler =(e,{resetForm})=>{
-  alert(JSON.stringify(e))
+const onSubmitHandler =async(e,{resetForm})=>{
+  try{
+        const res = await axios.post(`http://localhost:8000/api/v1/register`,e);
+        const data = await res.data;
+        toast.success(data?.msg);
+        resetForm();
+        router.push('/login')
+  }catch(e){
+    toast.error(e?.response?.data?.message);
+  }
 }
 
 </script>

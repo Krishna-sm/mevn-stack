@@ -33,6 +33,11 @@ const router = createRouter({
       path: '/blog/:id',
       name: 'blogById',
       component: () => import('../views/SingleBlog.vue')
+    },
+    {
+      path: '/dashboard',
+      name: 'dsahboard',
+      component: () => import('../views/DashBoardView.vue')
     }
   ]
 })

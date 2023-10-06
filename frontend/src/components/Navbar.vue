@@ -1,5 +1,20 @@
 <script setup>
 import { RouterLink } from 'vue-router'
+import {computed} from 'vue';
+import {userStore} from '../stores/userStore'
+import {toast} from 'vue3-toastify'
+const store = userStore();
+console.log({user:store.user})
+
+const token = computed(()=>store.token);
+const logout =()=>{
+  try{
+    store.logoutButton();
+  toast.success("logout Success")
+  }catch(e){
+    toast.error(e.message)
+  }
+}
 </script>
 
 <template>
@@ -16,8 +31,14 @@ import { RouterLink } from 'vue-router'
               <li>
                 <router-link :to="{name:'Contact'}">Contact</router-link>
               </li>
-              <li >
+              <li v-if="!token" >
                 <router-link to="/login" class="bg-indigo-500 inline-block hover:bg-indigo-600 cursor-pointer px-5 py-2 md:px-12 md:py-3 rounded-md text-white">Login</router-link>
+              </li>
+              <li v-if="token" >
+                <router-link to="/dashboard" class="bg-indigo-500 inline-block hover:bg-indigo-600 cursor-pointer px-5 py-2 md:px-12 md:py-3 rounded-md text-white">Dashboard</router-link>
+              </li>
+              <li v-if="token" >
+                <button @click="logout" class="bg-indigo-500 inline-block hover:bg-indigo-600 cursor-pointer px-5 py-2 md:px-12 md:py-3 rounded-md text-white">Logout</button>
               </li>
             </ul>
           </nav>

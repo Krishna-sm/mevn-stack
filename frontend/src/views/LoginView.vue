@@ -31,7 +31,11 @@
 import { RouterLink } from 'vue-router';
 import {Form,Field,ErrorMessage} from 'vee-validate';
 import * as yup from 'yup';
-
+import {toast} from 'vue3-toastify'
+import axios from 'axios'
+import {useRouter} from 'vue-router'
+import {userStore} from '../stores/userStore';
+const router = useRouter()
 const validationSchema = yup.object({
   email:yup.string().email("plese enter valid email").required("Email is required"),
   password:yup.string().min(5,"password is grater than 5 characters").required("password is required"),
@@ -42,8 +46,37 @@ const initialValues ={
   password:""
 }
 
-const onSubmitHandler =(e,{resetForm})=>{
-  alert(JSON.stringify(e))
+const store = userStore();
+
+
+const fetchUser = async(token)=>{
+  try{
+        const res =  await axios.get(`http://localhost:8000/api/v1/profile`,{
+          headers:{
+            'Authorization':`Bearer ${token}`
+          }
+        });
+        const data = await res.data;
+        console.log(data);
+        store.setUser(data);
+  }catch(e){
+    console.log(e)
+  }
+}
+
+
+const onSubmitHandler =async(e,{resetForm})=>{
+  try{
+        const res = await axios.post(`http://localhost:8000/api/v1/login`,e);
+        const data = await res.data;
+        toast.success(data?.msg);
+        store.setToken(data.token);
+        fetchUser(data?.token)
+        resetForm();
+        router.push('/')
+  }catch(e){
+    toast.error(e?.response?.data?.message);
+  }
 }
 
 </script>
