@@ -2,23 +2,31 @@
     <div v-if="loading">
        loading.....
     </div>
-    <div v-else>
-     <pre>
-        {{ post }}
-     </pre>
-     <section>
-                <div class="py-24">
-                    <h1 class="text-4xl tet-center ">{{ post.post.title }}</h1>
-                    <small>@{{ post.post.user.email }}</small>
-                    <img :src="`http://localhost:8000/static/`+post.post.image" />
+    <section class="w-full md:w-[70%] mx-auto flex flex-col gap-12" v-else>
+    
+
+                <div class="py-10 relative px- h-[50vh]">
+                    <img   :src="post.image" class="w-full h-full object-cover"/>
+                    <div class="absolute top-0 left-0 w-full h-full flex justify-center items-center bg-black bg-opacity-[50%] flex-col">
+                        <h1 class="text-5xl md:9xl text-white text-start">{{ post.post.title }}</h1>
+                        <p class="text-lg md:text-xl text-white">{{ post.post.description }}</p>
+                        <small class="text-lg text-white">@{{ post.post.user.name }}</small>
+                        
+                    </div>
                 </div>
-     </section>
-    </div>
+                <div class="py-10">
+                   <MarkdownData :content="post.post.content" />
+                </div>
+     
+
+
+    </section>
 </template>
 
 <script setup>
 import { useRoute } from 'vue-router';
 import {toast} from 'vue3-toastify';
+import MarkdownData from '../components/MarkdownData.vue'
 import axios from 'axios'
 import{ref,onMounted} from 'vue'
         const router = useRoute();

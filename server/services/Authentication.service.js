@@ -1,7 +1,15 @@
 const httpStatus = require("http-status");
-const { UserModel ,BlogPostModel} = require("../models");
+const { UserModel ,BlogPostModel,ContactModel} = require("../models");
 const ApiError = require("../utils/ApiError");
 const { GenerateToken } = require("../utils/jwt.utils");
+const cloundary = require("../utils/cloudnary")
+
+const uploadOnCLoundary = async(path)=>{
+  const result = await cloundary.uploader.upload(path,{
+    folder:"blogs"
+  });
+  return result;
+}
 
 const register = async(body)=>{
     const {name,email,password} = body;
@@ -47,18 +55,23 @@ const UserProfile = async(id)=>{
 const createPost= async(user,body,file)=>{
     const {title,content,description} = body;
 
+
 const existance = await BlogPostModel.findOne({title});
 if(existance){
   throw new ApiError(httpStatus.BAD_REQUEST,"Title already exist try with another name")
 }
 
     const newTitle = title.split(" ").join("-")
+    const result = await uploadOnCLoundary(file.path);
 
-    const model =await BlogPostModel.create({
+  await BlogPostModel.create({
       title:title,
       slug:newTitle,
       content,
-      image:file?.filename,
+      image:{
+        image_url:result.secure_url,
+        cloudnary_id:result.public_id
+      },
       user:user,
       description
     })
@@ -77,7 +90,9 @@ const AllPost  = async()=>{
 
 const PostById = async(id)=>{
   const post =  await BlogPostModel.findOne({_id:id, isDeleted:false}).populate("user","name email")
-  return {post}
+  
+
+  return {post,image:post.image.image_url}
 }
 
 
@@ -89,6 +104,19 @@ const deleteById = async(id)=>{
 }
 
 
+const Contact = async(body)=>{
+  const {name,email,message}=  body;
+
+  await ContactModel.create({
+    name,email,message
+  })
+
+  return {msg:"Thanku for Contacting :) "}
+
+
+}
+
+
 module.exports = {
     register,
     loginService,
@@ -96,5 +124,6 @@ module.exports = {
     createPost,
     AllPost,
     PostById,
-    deleteById
+    deleteById,
+    Contact
 }

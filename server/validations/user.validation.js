@@ -15,8 +15,17 @@ const loginUser = {
   }),
 };
 
+const ContactDetails  = {
+  body: Joi.object().keys({
+    name: Joi.string().required(),
+    email: Joi.string().required().email(),
+    message:Joi.string().required().min(5)
+  }),
+};
+
 
 module.exports = {
   createUser,
-  loginUser
+  loginUser,
+  ContactDetails
 };

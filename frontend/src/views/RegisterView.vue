@@ -19,7 +19,7 @@
           </div>
           <div class="mb-3 w-full">
             <label class="text-start">Password <span class="text-red-500">*</span></label>
-            <Field name="password" type="text" placeholder="Enter Password" class="outline-none border-none w-full text-xl rounded-md shadow-md py-3 px-4 font-serif placeholder:font-normal"/>
+            <Field name="password" type="password" placeholder="Enter Password" class="outline-none border-none w-full text-xl rounded-md shadow-md py-3 px-4 font-serif placeholder:font-normal"/>
             <p class="text-red-500">
               <ErrorMessage name="password"/>
             </p>

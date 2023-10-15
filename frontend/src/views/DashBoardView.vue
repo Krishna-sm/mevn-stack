@@ -7,6 +7,20 @@ const text =ref('')
 const title = ref('')
 const description = ref('')
 const image = ref(null)
+import {useBlogStore} from './../stores/blogStore'
+const blogStore = useBlogStore();
+
+const fetchBlogs = async()=>{
+  try{
+        const res =  await axios.get(`http://localhost:8000/api/v1/post`);
+        const data = await res.data;
+        // console.log(data);
+        blogStore.setBlogs(data.posts);
+  }catch(e){
+    console.log(e)
+  }
+}
+
 
 const onChangeImage = (img)=>{
     image.value = img
@@ -27,6 +41,10 @@ const submitBtn=async()=>{
             })
             console.log(response.data)
             toast.success(response.data?.msg)
+            fetchBlogs();
+
+
+
             title.value='';
             text.value='';
             description.value='';

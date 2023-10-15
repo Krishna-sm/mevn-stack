@@ -16,7 +16,16 @@ const schema = new mongoose.Schema({
         required:true
     },
     image:{
-        type:String,
+        type:{
+            image_url:{
+                type:String,
+                required:true
+            },
+            cloudnary_id:{
+                type:String,
+                required:true
+            }
+        },
         required:true
     },
     content:{

@@ -1,7 +1,7 @@
 const express = require("express");
 const { AuthenticationController } = require("../controllers");
 const validate = require("../middlewares/validate");
-const { createUser,loginUser } = require("../validations/user.validation");
+const { createUser,loginUser,ContactDetails } = require("../validations/user.validation");
 const verifyJWT = require("../middlewares/verifyToken");
 const { upload } = require("../utils/uploads");
 
@@ -20,5 +20,8 @@ router.route("/post")
 router.route("/post/:id")
 .get(AuthenticationController.PostById)
 
+
+router.route("/contact")
+.post(validate(ContactDetails),AuthenticationController.Contact)
 
 module.exports = router;
